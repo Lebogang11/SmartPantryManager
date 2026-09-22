@@ -1,0 +1,11 @@
+{
+  "name": "smart-pantry-web-tests",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test:engine": "node engine.test.js",
+    "test:ui": "node ui.test.js",
+    "test": "node engine.test.js && node ui.test.js"
+  },
+  "devDependencies": { "jsdom": "^24.0.0" }
+}

@@ -1,0 +1,784 @@
+[
+ {
+  "id": 1,
+  "name": "Cheese and tomato omelette",
+  "emoji": "🍳",
+  "minutes": 10,
+  "servings": 1,
+  "ingredients": [
+   {
+    "name": "egg",
+    "qty": 3,
+    "unit": "pcs"
+   },
+   {
+    "name": "tomato",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "cheddar cheese",
+    "qty": 30,
+    "unit": "g"
+   },
+   {
+    "name": "butter",
+    "qty": 10,
+    "unit": "g"
+   }
+  ],
+  "steps": [
+   "Dice the tomato and grate the cheese.",
+   "Beat the eggs in a bowl with a fork until smooth.",
+   "Melt the butter in a non-stick pan over medium heat and pour in the eggs.",
+   "When the edges set, scatter the tomato and cheese over one half.",
+   "Fold the omelette over, cook for 1 more minute and slide onto a plate."
+  ]
+ },
+ {
+  "id": 2,
+  "name": "Scrambled eggs on toast",
+  "emoji": "🍞",
+  "minutes": 10,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "egg",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "bread",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "butter",
+    "qty": 15,
+    "unit": "g"
+   },
+   {
+    "name": "milk",
+    "qty": 50,
+    "unit": "ml"
+   },
+   {
+    "name": "salt",
+    "qty": 0.5,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Whisk the eggs with the milk and salt.",
+   "Toast the bread while you heat half the butter in a pan on low heat.",
+   "Pour in the eggs and stir gently with a spatula until just set and creamy.",
+   "Butter the toast with the remaining butter and pile the eggs on top."
+  ]
+ },
+ {
+  "id": 3,
+  "name": "Tomato pasta",
+  "emoji": "🍝",
+  "minutes": 20,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "pasta",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "tomato",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "olive oil",
+    "qty": 2,
+    "unit": "tbsp"
+   },
+   {
+    "name": "salt",
+    "qty": 1,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Boil the pasta in salted water until al dente, then drain.",
+   "Chop the onion, garlic and tomatoes.",
+   "Soften the onion in the olive oil for 4 minutes, then add the garlic for 30 seconds.",
+   "Add the tomatoes and simmer for 10 minutes until saucy.",
+   "Toss the pasta through the sauce and season with salt."
+  ]
+ },
+ {
+  "id": 4,
+  "name": "Egg fried rice",
+  "emoji": "🍚",
+  "minutes": 15,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "rice",
+    "qty": 150,
+    "unit": "g"
+   },
+   {
+    "name": "egg",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "soy sauce",
+    "qty": 2,
+    "unit": "tbsp"
+   },
+   {
+    "name": "vegetable oil",
+    "qty": 1,
+    "unit": "tbsp"
+   }
+  ],
+  "steps": [
+   "Cook the rice, spread it on a tray and let it cool.",
+   "Finely chop the onion.",
+   "Heat the oil in a wok, fry the onion for 2 minutes, then push it aside.",
+   "Scramble the eggs in the empty space, then mix everything together.",
+   "Add the rice and soy sauce and stir-fry over high heat for 3 minutes."
+  ]
+ },
+ {
+  "id": 5,
+  "name": "Chicken and rice bowl",
+  "emoji": "🍗",
+  "minutes": 30,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "chicken breast",
+    "qty": 300,
+    "unit": "g"
+   },
+   {
+    "name": "rice",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "soy sauce",
+    "qty": 2,
+    "unit": "tbsp"
+   }
+  ],
+  "steps": [
+   "Cook the rice according to the packet instructions.",
+   "Slice the chicken into strips and chop the onion and garlic.",
+   "Fry the chicken in a hot pan for 6 minutes until golden and cooked through.",
+   "Add the onion and garlic and cook for 3 minutes, then stir in the soy sauce.",
+   "Serve the chicken over the rice."
+  ]
+ },
+ {
+  "id": 6,
+  "name": "Spanish potato tortilla",
+  "emoji": "🥔",
+  "minutes": 35,
+  "servings": 4,
+  "ingredients": [
+   {
+    "name": "potato",
+    "qty": 3,
+    "unit": "pcs"
+   },
+   {
+    "name": "egg",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "olive oil",
+    "qty": 3,
+    "unit": "tbsp"
+   },
+   {
+    "name": "salt",
+    "qty": 1,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Peel and thinly slice the potatoes and onion.",
+   "Cook them slowly in the olive oil for 15 minutes until soft, not browned.",
+   "Beat the eggs with the salt and stir in the warm potato mixture.",
+   "Pour it back into the pan and cook on low heat for 5 minutes.",
+   "Flip using a plate and cook the other side for 3 minutes."
+  ]
+ },
+ {
+  "id": 7,
+  "name": "Creamy mushroom pasta",
+  "emoji": "🍄",
+  "minutes": 25,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "pasta",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "mushroom",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "cream",
+    "qty": 100,
+    "unit": "ml"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "butter",
+    "qty": 20,
+    "unit": "g"
+   }
+  ],
+  "steps": [
+   "Boil the pasta until al dente.",
+   "Slice the mushrooms and crush the garlic.",
+   "Fry the mushrooms in the butter until golden, then add the garlic.",
+   "Pour in the cream and simmer for 3 minutes.",
+   "Toss with the pasta and serve."
+  ]
+ },
+ {
+  "id": 8,
+  "name": "Banana pancakes",
+  "emoji": "🥞",
+  "minutes": 20,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "banana",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "egg",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "flour",
+    "qty": 100,
+    "unit": "g"
+   },
+   {
+    "name": "milk",
+    "qty": 150,
+    "unit": "ml"
+   },
+   {
+    "name": "butter",
+    "qty": 10,
+    "unit": "g"
+   }
+  ],
+  "steps": [
+   "Mash the bananas in a bowl.",
+   "Whisk in the eggs, then the flour and milk until you have a thick batter.",
+   "Melt a little butter in a pan over medium heat.",
+   "Cook spoonfuls of batter for 2 minutes per side until golden."
+  ]
+ },
+ {
+  "id": 9,
+  "name": "Vegetable stir-fry",
+  "emoji": "🥦",
+  "minutes": 15,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "carrot",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "bell pepper",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "broccoli",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "soy sauce",
+    "qty": 3,
+    "unit": "tbsp"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "vegetable oil",
+    "qty": 1,
+    "unit": "tbsp"
+   }
+  ],
+  "steps": [
+   "Slice the carrots and pepper, cut the broccoli into florets and crush the garlic.",
+   "Heat the oil in a wok until smoking.",
+   "Stir-fry the carrots and broccoli for 4 minutes, then add the pepper and garlic.",
+   "Add the soy sauce and toss for 1 minute before serving."
+  ]
+ },
+ {
+  "id": 10,
+  "name": "Red lentil soup",
+  "emoji": "🥣",
+  "minutes": 40,
+  "servings": 4,
+  "ingredients": [
+   {
+    "name": "lentil",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "carrot",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "vegetable stock",
+    "qty": 750,
+    "unit": "ml"
+   },
+   {
+    "name": "cumin",
+    "qty": 1,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Chop the onion, carrots and garlic.",
+   "Soften them in a large pot for 5 minutes, then stir in the cumin.",
+   "Add the rinsed lentils and the stock and bring to the boil.",
+   "Simmer for 25 minutes until the lentils are soft.",
+   "Blend part of the soup for a thicker texture and serve."
+  ]
+ },
+ {
+  "id": 11,
+  "name": "Cheese toastie",
+  "emoji": "🧀",
+  "minutes": 10,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "bread",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "cheddar cheese",
+    "qty": 100,
+    "unit": "g"
+   },
+   {
+    "name": "butter",
+    "qty": 20,
+    "unit": "g"
+   }
+  ],
+  "steps": [
+   "Butter one side of every slice of bread.",
+   "Layer the grated cheese between two slices, butter side out.",
+   "Toast in a hot pan for 3 minutes per side until golden and melted."
+  ]
+ },
+ {
+  "id": 12,
+  "name": "Chickpea curry",
+  "emoji": "🍛",
+  "minutes": 30,
+  "servings": 3,
+  "ingredients": [
+   {
+    "name": "chickpea",
+    "qty": 1,
+    "unit": "can"
+   },
+   {
+    "name": "canned tomato",
+    "qty": 1,
+    "unit": "can"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "curry powder",
+    "qty": 2,
+    "unit": "tsp"
+   },
+   {
+    "name": "coconut milk",
+    "qty": 1,
+    "unit": "can"
+   }
+  ],
+  "steps": [
+   "Fry the chopped onion and garlic until soft.",
+   "Stir in the curry powder for 1 minute.",
+   "Add the tomatoes, coconut milk and drained chickpeas.",
+   "Simmer for 15 minutes until thick and serve with rice."
+  ]
+ },
+ {
+  "id": 13,
+  "name": "Cheesy baked potato",
+  "emoji": "🥔",
+  "minutes": 60,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "potato",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "cheddar cheese",
+    "qty": 60,
+    "unit": "g"
+   },
+   {
+    "name": "butter",
+    "qty": 20,
+    "unit": "g"
+   },
+   {
+    "name": "salt",
+    "qty": 0.5,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Heat the oven to 200 °C and prick the potatoes with a fork.",
+   "Rub them with a little butter and salt and bake for 50 minutes.",
+   "Split the potatoes open and mash in the remaining butter.",
+   "Top with the grated cheese and return to the oven for 5 minutes."
+  ]
+ },
+ {
+  "id": 14,
+  "name": "Guacamole on toast",
+  "emoji": "🥑",
+  "minutes": 10,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "avocado",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "lime",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "tomato",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "bread",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "salt",
+    "qty": 0.5,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Mash the avocados with the lime juice and salt.",
+   "Dice the tomato and fold it through.",
+   "Toast the bread and spread the guacamole on top."
+  ]
+ },
+ {
+  "id": 15,
+  "name": "Spaghetti aglio e olio",
+  "emoji": "🍝",
+  "minutes": 15,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "pasta",
+    "qty": 200,
+    "unit": "g"
+   },
+   {
+    "name": "garlic",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "olive oil",
+    "qty": 4,
+    "unit": "tbsp"
+   },
+   {
+    "name": "chilli flakes",
+    "qty": 1,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Boil the pasta until al dente, saving a cup of the water.",
+   "Slice the garlic and warm it gently in the oil until fragrant.",
+   "Add the chilli flakes, then the pasta and a splash of pasta water.",
+   "Toss for 1 minute until glossy."
+  ]
+ },
+ {
+  "id": 16,
+  "name": "Yoghurt and banana parfait",
+  "emoji": "🍌",
+  "minutes": 5,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "yoghurt",
+    "qty": 300,
+    "unit": "g"
+   },
+   {
+    "name": "banana",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "oats",
+    "qty": 60,
+    "unit": "g"
+   },
+   {
+    "name": "honey",
+    "qty": 2,
+    "unit": "tbsp"
+   }
+  ],
+  "steps": [
+   "Slice the banana.",
+   "Layer yoghurt, oats and banana in two glasses.",
+   "Drizzle with honey and serve straight away."
+  ]
+ },
+ {
+  "id": 17,
+  "name": "Honey oat porridge",
+  "emoji": "🥣",
+  "minutes": 10,
+  "servings": 1,
+  "ingredients": [
+   {
+    "name": "oats",
+    "qty": 80,
+    "unit": "g"
+   },
+   {
+    "name": "milk",
+    "qty": 300,
+    "unit": "ml"
+   },
+   {
+    "name": "honey",
+    "qty": 1,
+    "unit": "tbsp"
+   }
+  ],
+  "steps": [
+   "Combine the oats and milk in a saucepan.",
+   "Cook over medium heat for 5 minutes, stirring often.",
+   "Serve drizzled with honey."
+  ]
+ },
+ {
+  "id": 18,
+  "name": "Tuna pasta salad",
+  "emoji": "🐟",
+  "minutes": 20,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "pasta",
+    "qty": 150,
+    "unit": "g"
+   },
+   {
+    "name": "canned tuna",
+    "qty": 1,
+    "unit": "can"
+   },
+   {
+    "name": "mayonnaise",
+    "qty": 2,
+    "unit": "tbsp"
+   },
+   {
+    "name": "tomato",
+    "qty": 2,
+    "unit": "pcs"
+   }
+  ],
+  "steps": [
+   "Boil the pasta, drain and rinse under cold water.",
+   "Drain the tuna and dice the tomatoes.",
+   "Mix everything with the mayonnaise and chill until ready to serve."
+  ]
+ },
+ {
+  "id": 19,
+  "name": "Spinach and pepper omelette",
+  "emoji": "🫑",
+  "minutes": 15,
+  "servings": 1,
+  "ingredients": [
+   {
+    "name": "egg",
+    "qty": 3,
+    "unit": "pcs"
+   },
+   {
+    "name": "bell pepper",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "spinach",
+    "qty": 50,
+    "unit": "g"
+   },
+   {
+    "name": "butter",
+    "qty": 10,
+    "unit": "g"
+   }
+  ],
+  "steps": [
+   "Finely dice the pepper and onion.",
+   "Soften them in the butter for 3 minutes, then wilt the spinach.",
+   "Pour over the beaten eggs and cook until set.",
+   "Fold and serve."
+  ]
+ },
+ {
+  "id": 20,
+  "name": "Shakshuka",
+  "emoji": "🍅",
+  "minutes": 30,
+  "servings": 2,
+  "ingredients": [
+   {
+    "name": "egg",
+    "qty": 4,
+    "unit": "pcs"
+   },
+   {
+    "name": "canned tomato",
+    "qty": 1,
+    "unit": "can"
+   },
+   {
+    "name": "onion",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "bell pepper",
+    "qty": 1,
+    "unit": "pcs"
+   },
+   {
+    "name": "garlic",
+    "qty": 2,
+    "unit": "pcs"
+   },
+   {
+    "name": "cumin",
+    "qty": 1,
+    "unit": "tsp"
+   }
+  ],
+  "steps": [
+   "Fry the chopped onion and pepper for 5 minutes, then add the garlic and cumin.",
+   "Pour in the tomatoes and simmer for 10 minutes.",
+   "Make four wells in the sauce and crack in the eggs.",
+   "Cover and cook for 5 minutes until the whites are set."
+  ]
+ }
+]

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Smart Pantry Manager – interactive preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F6F1; --surface:#FFFFFF; --surface2:#E8EFE7; --ink:#14261D; --muted:#586A5F; --line:#D3DDD2;
+  --brand:#1D5A42; --brand-ink:#FFFFFF; --brand-soft:#DCEBDD; --lime:#C9E25B;
+  --warn-bg:#FBEBC4; --warn-ink:#7A4B00; --warn-line:#E8C46A;
+  --bad-bg:#FBDCD6; --bad-ink:#9B2A1B; --bad:#C2402B;
+  --stage:#DCE5DB; --bezel:#0E1512; --shadow:0 24px 60px rgba(14,21,18,.28);
+  --font-display:'Bricolage Grotesque','Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1A15; --surface:#16241D; --surface2:#1E3026; --ink:#E8F0EA; --muted:#9DB0A4; --line:#2B4034;
+    --brand:#6FCF97; --brand-ink:#0B1F15; --brand-soft:#1F3A2B; --lime:#B9D24E;
+    --warn-bg:#3A2E12; --warn-ink:#F0C060; --warn-line:#6B531B; --bad-bg:#3E1E19; --bad-ink:#FF9A8B; --bad:#FF7A6B;
+    --stage:#0A120E; --bezel:#050907; --shadow:0 24px 60px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1A15; --surface:#16241D; --surface2:#1E3026; --ink:#E8F0EA; --muted:#9DB0A4; --line:#2B4034;
+  --brand:#6FCF97; --brand-ink:#0B1F15; --brand-soft:#1F3A2B; --lime:#B9D24E;
+  --warn-bg:#3A2E12; --warn-ink:#F0C060; --warn-line:#6B531B; --bad-bg:#3E1E19; --bad-ink:#FF9A8B; --bad:#FF7A6B;
+  --stage:#0A120E; --bezel:#050907; --shadow:0 24px 60px rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--stage);color:var(--ink);font:400 15px/1.45 var(--font-body);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
+h1,h2,h3,p{margin:0}
+.stage{height:100%;display:flex;align-items:center;justify-content:center;gap:56px;padding:24px}
+.device{position:relative;width:392px;max-width:100%;height:min(100%,860px);background:var(--bg);border:10px solid var(--bezel);border-radius:46px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;isolation:isolate}
+@media (max-width:520px){.stage{padding:0}.device{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}}
+@media (max-width:1040px){.guide{display:none}}
+
+/* ---------- Guide panel (desktop only) ---------- */
+.guide{width:400px;max-height:100%;overflow:auto;padding:4px 4px 4px 0;color:var(--ink)}
+.guide h1{font:700 30px/1.1 var(--font-display);letter-spacing:-.02em;margin-bottom:10px}
+.guide .lede{color:var(--muted);margin-bottom:18px;max-width:52ch}
+.guide h2{font:700 16px/1.2 var(--font-display);margin:22px 0 10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.stat b{display:block;font:700 26px/1 var(--font-display)}
+.stat span{font-size:12.5px;color:var(--muted)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:8px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-weight:700;font-size:12.5px}
+.steps small{display:block;color:var(--muted);font-size:12.5px;margin-top:1px}
+.gbtn{border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:600}
+.gbtn:hover{border-color:var(--brand)}
+.grow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.guide details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:10px}
+.guide summary{font-weight:700;cursor:pointer}
+.guide ul{margin:10px 0 2px;padding-left:18px;color:var(--muted);font-size:13.5px;display:grid;gap:4px}
+.guide ul b{color:var(--ink);font-weight:600}
+.guide .note{font-size:12.5px;color:var(--muted);margin-top:14px}
+
+/* ---------- App shell ---------- */
+.appbar{flex:none;padding:18px 20px 10px;display:flex;align-items:flex-start;gap:10px}
+.appbar .titles{flex:1;min-width:0}
+.appbar h1{font:700 27px/1.1 var(--font-display);letter-spacing:-.02em}
+.appbar p{color:var(--muted);font-size:13.5px;margin-top:3px}
+.iconbtn{flex:none;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--ink)}
+.iconbtn:hover{border-color:var(--brand)}
+.iconbtn.danger{color:var(--bad)}
+.iconbtn.plain{border-color:transparent;background:transparent}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:4px 16px 24px;-webkit-overflow-scrolling:touch}
+.screen.with-fab{padding-bottom:96px}
+.nav{flex:none;display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.nav button{border:0;background:none;display:grid;justify-items:center;gap:2px;padding:7px 4px;border-radius:14px;color:var(--muted);font-size:12.5px;font-weight:600;position:relative}
+.nav button[aria-current="page"]{color:var(--brand)}
+.nav button[aria-current="page"] .pill{background:var(--brand-soft)}
+.pill{width:56px;height:30px;border-radius:15px;display:grid;place-items:center}
+.badge{position:absolute;top:2px;left:calc(50% + 8px);min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--lime);color:#14261D;font-size:12px;font-weight:700;display:grid;place-items:center}
+.fab{position:absolute;right:16px;bottom:86px;height:52px;padding:0 20px 0 16px;border:0;border-radius:26px;background:var(--brand);color:var(--brand-ink);font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 8px 20px rgba(14,21,18,.28);z-index:3}
+.fab:hover{filter:brightness(1.08)}
+
+/* ---------- Controls ---------- */
+.search{position:relative;margin:4px 0 10px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.input,.select{width:100%;min-height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);padding:10px 14px}
+.search .input{padding-left:42px}
+.input:focus,.select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.input[aria-invalid="true"]{border-color:var(--bad)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px;scrollbar-width:none}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:20px;padding:6px 14px;font-weight:600;font-size:13.5px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 10px;color:var(--muted);font-size:13px}
+.toolbar select{border:0;background:transparent;font-weight:600;color:var(--ink);padding:4px}
+.banner{display:flex;gap:10px;align-items:center;background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line);border-radius:14px;padding:10px 12px;margin:4px 0 12px;font-size:13.5px}
+.banner b{font-weight:700}
+.banner .grow1{flex:1}
+.banner button{border:0;background:none;color:inherit;font-weight:700;text-decoration:underline;padding:4px}
+.banner.info{background:var(--surface2);color:var(--ink);border-color:var(--line)}
+
+/* ---------- Pantry cards ---------- */
+.list{display:grid;gap:10px}
+.item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 8px 12px 14px;position:relative}
+.item::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--line)}
+.item.soon::before{background:#E0A11B}.item.expired::before{background:var(--bad)}.item.fresh::before{background:var(--brand)}
+.item .main{flex:1;min-width:0;text-align:left;background:none;border:0;padding:0}
+.item .name{font:700 16.5px/1.2 var(--font-display);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .qty{color:var(--muted);font-size:14px}
+.tag{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:10px;background:var(--surface2);color:var(--muted)}
+.tag.soon{background:var(--warn-bg);color:var(--warn-ink)}.tag.expired{background:var(--bad-bg);color:var(--bad-ink)}.tag.fresh{background:var(--brand-soft);color:var(--brand)}
+.acts{display:flex;gap:2px}
+
+/* ---------- Recipe cards ---------- */
+.shelf{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;margin:8px 0 6px}
+.shelf i{height:14px;border-radius:4px;background:var(--surface2)}
+.shelf i.r{background:var(--brand)}.shelf i.a{background:var(--warn-bg);box-shadow:inset 0 0 0 1.5px #E0A11B}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--brand)}
+.legend .a::before{background:var(--warn-bg);box-shadow:inset 0 0 0 1.5px #E0A11B}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface2);border-radius:14px;padding:4px;margin-bottom:12px}
+.tabs button{border:0;background:none;border-radius:11px;padding:9px 8px;font-weight:700;font-size:13.5px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(14,21,18,.14)}
+.rcard{width:100%;text-align:left;display:block;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;color:inherit}
+.rcard:hover{border-color:var(--brand)}
+.rhead{display:flex;gap:12px;align-items:center}
+.emoji{flex:none;width:52px;height:52px;border-radius:15px;background:var(--brand-soft);display:grid;place-items:center;font-size:28px}
+.rhead h3{font:700 17px/1.2 var(--font-display)}
+.rmeta{color:var(--muted);font-size:13px;margin-top:2px}
+.ichips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ichip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;padding:3px 9px 3px 7px;border-radius:8px;background:var(--brand-soft);color:var(--brand)}
+.ichip.soon{background:var(--warn-bg);color:var(--warn-ink)}
+.ichip.miss{background:transparent;border:1.5px dashed var(--bad);color:var(--bad-ink);padding:1.5px 8px 1.5px 6px}
+.saves{margin-top:10px;font-size:13px;color:var(--warn-ink);font-weight:600}
+.empty{text-align:center;padding:34px 18px;color:var(--muted)}
+.empty svg{color:var(--brand);margin-bottom:8px}
+.empty h3{font:700 19px/1.25 var(--font-display);color:var(--ink);margin-bottom:6px}
+.empty p{max-width:32ch;margin:0 auto 16px}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);font-weight:700}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.solid-danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn.small{min-height:36px;padding:0 12px;font-size:13.5px;border-radius:10px}
+
+/* ---------- Forms ---------- */
+.field{margin-bottom:16px}
+.field label,.field .lbl{display:block;font-weight:700;margin-bottom:6px;font-size:14px}
+.field .opt{font-weight:500;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+.err{font-size:13px;color:var(--bad-ink);margin-top:6px;font-weight:600;display:flex;gap:6px;align-items:center}
+.warnline{font-size:13px;color:var(--warn-ink);background:var(--warn-bg);border-radius:10px;padding:6px 10px;margin-top:8px}
+.row2{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+.formactions{display:grid;gap:10px;margin-top:22px}
+
+/* ---------- Detail ---------- */
+.hero{display:flex;gap:14px;align-items:center;margin:2px 0 14px}
+.hero .emoji{width:68px;height:68px;font-size:38px;border-radius:20px}
+.hero h2{font:700 24px/1.15 var(--font-display);letter-spacing:-.01em}
+.status{display:flex;gap:10px;align-items:center;border-radius:14px;padding:11px 14px;margin-bottom:16px;font-weight:600;font-size:14px}
+.status.ok{background:var(--brand-soft);color:var(--brand)}.status.almost{background:var(--warn-bg);color:var(--warn-ink)}.status.no{background:var(--surface2);color:var(--muted)}
+.section-h{font:700 17px/1.2 var(--font-display);margin:20px 0 10px}
+.ings{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.ings li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 12px;border-bottom:1px solid var(--line)}
+.ings li:last-child{border-bottom:0}
+.mark{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand)}
+.mark.no{background:var(--bad-bg);color:var(--bad-ink)}
+.ings .nm{font-weight:600}.ings .sub{font-size:12.5px;color:var(--muted)}
+.ings .sub.bad{color:var(--bad-ink);font-weight:600}
+.method{margin:0;padding:0;list-style:none;counter-reset:m;display:grid;gap:10px}
+.method li{counter-increment:m;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.method li::before{content:counter(m);width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:13px}
+.trace{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:18px;font-size:13.5px}
+.trace summary{font-weight:700;cursor:pointer}
+.trace ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.trace li{padding-top:8px;border-top:1px solid var(--line);color:var(--muted)}
+.trace li b{color:var(--ink)}
+.trace code{font:600 12.5px/1 ui-monospace,Menlo,Consolas,monospace;background:var(--surface2);padding:2px 6px;border-radius:6px;color:var(--ink)}
+.stickybar{position:absolute;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);z-index:3;display:grid;gap:8px}
+.stickybar .hint{margin:0;text-align:center}
+
+/* ---------- Settings ---------- */
+.group{background:var(--surface);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden}
+.group h2{font:700 14px/1.2 var(--font-body);color:var(--muted);padding:14px 16px 4px}
+.setrow{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line)}
+.group h2+.setrow{border-top:0}
+.setrow .t{font-weight:600}.setrow .d{font-size:13px;color:var(--muted);margin-top:1px}
+.setrow .select{width:auto;min-height:40px;padding:6px 10px}
+.switch{flex:none;width:52px;height:30px;border-radius:15px;border:0;background:var(--line);position:relative;transition:background .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.switch[aria-checked="true"]{background:var(--brand)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+.aboutrow{padding:12px 16px 16px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+
+/* ---------- Overlay: dialog & toast ---------- */
+.overlay{position:absolute;inset:0;z-index:20;background:rgba(10,18,14,.55);display:grid;align-items:end;padding:12px}
+.dialog{background:var(--surface);border-radius:22px;padding:20px;display:grid;gap:12px;animation:up .18s ease-out}
+.dialog h2{font:700 20px/1.2 var(--font-display)}
+.dialog p{color:var(--muted)}
+.dialog ul{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:14px;max-height:180px;overflow:auto}
+.dialog ul li{display:flex;justify-content:space-between;gap:12px;padding:6px 10px;background:var(--surface2);border-radius:8px}
+.dialog .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.toast{position:absolute;left:14px;right:14px;bottom:82px;z-index:15;background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-weight:600;font-size:14px;animation:up .2s ease-out;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast span{flex:1}.toast button{border:0;background:none;color:var(--lime);font-weight:700;padding:4px 6px}
+.toast.nonav{bottom:16px}
+@keyframes up{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* ---------- Loading skeleton ---------- */
+.sk{background:var(--surface2);border-radius:16px;height:76px;margin-bottom:10px;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="guide" id="guide" aria-label="Demo guide"></aside>
+  <main class="device" id="device" aria-label="Smart Pantry Manager app preview">
+    <div id="appbar-slot"></div>
+    <div class="screen" id="screen" tabindex="-1"></div>
+    <div id="stick-slot"></div>
+    <nav class="nav" id="nav" aria-label="Main navigation"></nav>
+    <div id="fab-slot"></div>
+    <div id="overlay-slot"></div>
+    <div id="toast-slot" aria-live="polite" role="status"></div>
+  </main>
+</div>
+
+<script>
+/*__ENGINE__*/
+const RECIPES = /*__RECIPES__*/;
+const DEMO_PANTRY = /*__DEMO__*/;
+</script>
+<script>
+'use strict';
+/* =====================================================================
+   Smart Pantry Manager – interactive preview
+   Layers (mirrors the Android project):
+     Store / DAOs   ->  Room database + DAOs
+     Engine         ->  logic package (IngredientNormalizer, UnitConverter, RecipeMatcher)
+     render*()      ->  Activities + layouts + adapters
+   ===================================================================== */
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+const pad = n => String(n).padStart(2, '0');
+const isoOf = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const todayISO = () => isoOf(new Date());
+const plusDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return isoOf(d); };
+const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+
+const ICONS = {
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  trash: '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',
+  back: '<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>',
+  basket: '<path d="M3 9h18l-2 11H5Z"/><path d="M8 9l3-5M16 9l-3-5"/><path d="M9 13v4M15 13v4"/>',
+  chef: '<path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><path d="M6 17h12"/>',
+  sliders: '<path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+const ic = (n, s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+
+/* ---------- Persistence: Store + DAOs (Room equivalent) ---------- */
+const KEY = 'smartpantry.v1';
+const DEFAULT_SETTINGS = { alerts: true, soonDays: 3, ignoreExpired: true, defaultUnit: 'pcs' };
+const Store = {
+  persistent: true, mem: null,
+  read() {
+    let raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) { this.persistent = false; return this.mem; }
+    if (!raw) return null;
+    try {
+      const d = JSON.parse(raw);
+      return d && d.version === 1 && Array.isArray(d.recipes) && Array.isArray(d.pantry) ? d : null;
+    } catch (e) { return null; }
+  },
+  write(db) {
+    this.mem = JSON.parse(JSON.stringify(db));
+    try { localStorage.setItem(KEY, JSON.stringify(db)); this.persistent = true; } catch (e) { this.persistent = false; }
+  }
+};
+let db = null;
+function seedDatabase(withDemo) {
+  db = { version: 1, recipes: RECIPES.map(r => JSON.parse(JSON.stringify(r))), pantry: [], settings: { ...DEFAULT_SETTINGS }, nextId: 1 };
+  if (withDemo) fillDemo();
+  Store.write(db);
+}
+function fillDemo() {
+  db.pantry = DEMO_PANTRY.map(d => ({ id: db.nextId++, name: d.name, qty: d.qty, unit: d.unit, expiry: d.offset == null ? null : plusDays(d.offset) }));
+}
+const PantryDao = {
+  getAll: () => db.pantry,
+  get: id => db.pantry.find(p => p.id === id),
+  insert(item) { item.id = db.nextId++; db.pantry.push(item); Store.write(db); return item; },
+  update(item) { const i = db.pantry.findIndex(p => p.id === item.id); if (i < 0) return false; db.pantry[i] = item; Store.write(db); return true; },
+  remove(id) { const i = db.pantry.findIndex(p => p.id === id); if (i < 0) return null; const [g] = db.pantry.splice(i, 1); Store.write(db); return g; },
+  restore(item) { db.pantry.push(item); Store.write(db); },
+  clear() { db.pantry = []; Store.write(db); }
+};
+const RecipeDao = { getAll: () => db.recipes, get: id => db.recipes.find(r => r.id === id) };
+const Settings = { get: () => db.settings, set(patch) { Object.assign(db.settings, patch); Store.write(db); } };
+
+/* ---------- Matching helpers (call the engine) ---------- */
+const opts = () => ({ excludeExpired: db.settings.ignoreExpired, today: todayISO(), soonDays: db.settings.soonDays });
+const evaluateAll = () => { const o = opts(); return db.recipes.map(recipe => ({ recipe, m: Engine.evaluate(recipe, db.pantry, o) })); };
+const itemStatus = it => Engine.status(it.expiry, todayISO(), db.settings.soonDays);
+function expiryText(it) {
+  const d = Engine.daysUntil(it.expiry, todayISO());
+  if (d == null) return 'No expiry date';
+  if (d < 0) return d === -1 ? 'Expired yesterday' : `Expired ${-d} days ago`;
+  if (d === 0) return 'Expires today';
+  if (d === 1) return 'Expires tomorrow';
+  return `Expires in ${d} days`;
+}
+
+/* ---------- UI state ---------- */
+const ui = { tab: 'pantry', stack: [], q: '', filter: 'all', sort: 'expiry', cookTab: 'ready', loading: true, dialog: null, toast: null, bannerDismissed: false, errors: {}, touched: {}, draft: null };
+let toastTimer = null;
+
+/* ---------- Toast & dialog ---------- */
+function toast(msg, action) {
+  clearTimeout(toastTimer); ui.toast = { msg, action };
+  renderToast(); toastTimer = setTimeout(() => { ui.toast = null; renderToast(); }, action ? 6000 : 3200);
+}
+function renderToast() {
+  const t = ui.toast, onSub = ui.stack.length > 0;
+  $('#toast-slot').innerHTML = t ? `<div class="toast ${onSub ? 'nonav' : ''}"><span>${esc(t.msg)}</span>${t.action ? `<button data-action="toast-action">${esc(t.action.label)}</button>` : ''}</div>` : '';
+}
+function openDialog(d) { ui.dialog = d; renderDialog(); }
+function closeDialog() { ui.dialog = null; renderDialog(); }
+function renderDialog() {
+  const d = ui.dialog;
+  $('#overlay-slot').innerHTML = !d ? '' : `<div class="overlay" data-action="dialog-backdrop"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-t">
+    <h2 id="dlg-t">${esc(d.title)}</h2>${d.body ? `<p>${esc(d.body)}</p>` : ''}
+    ${d.list ? `<ul>${d.list.map(l => `<li><span>${esc(l[0])}</span><b>${esc(l[1])}</b></li>`).join('')}</ul>` : ''}
+    <div class="btns"><button class="btn" data-action="dialog-cancel">Cancel</button>
+    <button class="btn ${d.danger ? 'solid-danger' : 'primary'}" data-action="dialog-ok" id="dlg-ok">${esc(d.confirm)}</button></div></div></div>`;
+  if (d) setTimeout(() => { const b = $('#dlg-ok'); if (b) b.focus(); }, 0);
+}
+
+/* ---------- Navigation ---------- */
+const currentScreen = () => ui.stack[ui.stack.length - 1] || null;
+function push(name, params = {}) { ui.stack.push({ name, params }); ui.errors = {}; ui.touched = {}; ui.draft = null; render(); $('#screen').scrollTop = 0; }
+function pop() { ui.stack.pop(); render(); }
+function goTab(t) { ui.stack = []; if (t === 'suggested') ui.cookTab = 'ready'; ui.tab = t; render(); $('#screen').scrollTop = 0; }
+
+/* =====================================================================
+   Screens
+   ===================================================================== */
+function appbar({ title, sub, back, right }) {
+  return `<header class="appbar">${back ? `<button class="iconbtn plain" data-action="back" aria-label="Go back">${ic('back', 22)}</button>` : ''}
+    <div class="titles"><h1>${esc(title)}</h1>${sub ? `<p>${esc(sub)}</p>` : ''}</div>${right || ''}</header>`;
+}
+
+/* ----- Pantry list ----- */
+function filteredPantry() {
+  const q = ui.q.trim().toLowerCase(), key = Engine.canon(ui.q);
+  let items = PantryDao.getAll().filter(it => {
+    if (q && !(it.name.toLowerCase().includes(q) || (key && Engine.canon(it.name).includes(key)))) return false;
+    const s = itemStatus(it);
+    return ui.filter === 'all' || (ui.filter === 'soon' && s === 'soon') || (ui.filter === 'expired' && s === 'expired');
+  });
+  const byName = (a, b) => a.name.localeCompare(b.name);
+  if (ui.sort === 'name') items.sort(byName);
+  else if (ui.sort === 'added') items.sort((a, b) => b.id - a.id);
+  else items.sort((a, b) => (a.expiry || '9999') < (b.expiry || '9999') ? -1 : (a.expiry || '9999') > (b.expiry || '9999') ? 1 : byName(a, b));
+  return items;
+}
+function pantryListHTML() {
+  const all = PantryDao.getAll();
+  if (ui.loading) return '<div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>';
+  if (all.length === 0) return `<div class="empty">${ic('basket', 44)}<h3>Your pantry is empty</h3><p>Add what you have at home and Smart Pantry Manager will show what you can cook.</p>
+    <div style="display:grid;gap:8px;justify-items:center"><button class="btn primary" data-action="open-add">${ic('plus')} Add ingredient</button><button class="btn small" data-action="demo-load">Load demo pantry</button></div></div>`;
+  const items = filteredPantry();
+  if (items.length === 0) return `<div class="empty">${ic('search', 40)}<h3>No ingredients found</h3><p>${ui.q ? `Nothing in your pantry matches “${esc(ui.q)}”.` : 'No ingredients in this group.'}</p>
+    <button class="btn small" data-action="clear-filters">Show all ingredients</button></div>`;
+  return `<div class="list">${items.map(it => {
+    const s = itemStatus(it);
+    return `<article class="item ${s}"><button class="main" data-action="edit:${it.id}" aria-label="Edit ${esc(it.name)}">
+      <span class="name">${esc(cap(it.name))}</span><span class="qty">${esc(Engine.fmtQty(it.qty, it.unit))}</span>
+      <span class="tag ${s}">${esc(expiryText(it))}</span></button>
+      <div class="acts"><button class="iconbtn plain" data-action="edit:${it.id}" aria-label="Edit ${esc(it.name)}">${ic('edit')}</button>
+      <button class="iconbtn plain danger" data-action="delete:${it.id}" aria-label="Delete ${esc(it.name)}">${ic('trash')}</button></div></article>`;
+  }).join('')}</div>`;
+}
+function renderPantry() {
+  const all = PantryDao.getAll();
+  const soon = all.filter(i => itemStatus(i) === 'soon').length, exp = all.filter(i => itemStatus(i) === 'expired').length;
+  const showBanner = db.settings.alerts && !ui.loading && !ui.bannerDismissed && (soon + exp) > 0;
+  const counts = { all: all.length, soon, expired: exp };
+  const chip = (k, l) => `<button class="chip" data-action="filter:${k}" aria-pressed="${ui.filter === k}">${l} (${counts[k]})</button>`;
+  return {
+    bar: appbar({ title: 'My pantry', sub: ui.loading ? 'Loading your ingredients…' : `${plural(all.length, 'ingredient')} at home` }),
+    body: `${showBanner ? `<div class="banner" role="alert">${ic('bell', 20)}<div class="grow1"><b>${soon ? plural(soon, 'item') + ' expire' + (soon === 1 ? 's' : '') + ' within ' + plural(db.settings.soonDays, 'day') : ''}${soon && exp ? '. ' : ''}${exp ? plural(exp, 'item') + (exp === 1 ? ' has' : ' have') + ' expired' : ''}</b></div>
+      <button data-action="alert-show">Show</button><button data-action="alert-dismiss" aria-label="Dismiss alert">${ic('x', 16)}</button></div>` : ''}
+      <div class="search">${ic('search', 18)}<input class="input" id="q" type="search" placeholder="Search ingredients" value="${esc(ui.q)}" aria-label="Search ingredients" autocomplete="off"></div>
+      <div class="chips" role="group" aria-label="Filter">${chip('all', 'All')}${chip('soon', 'Expiring soon')}${chip('expired', 'Expired')}</div>
+      <div class="toolbar"><span id="count"></span><label>Sort by <select id="sort" aria-label="Sort ingredients">
+        <option value="expiry" ${ui.sort === 'expiry' ? 'selected' : ''}>Expiry date</option><option value="name" ${ui.sort === 'name' ? 'selected' : ''}>Name</option><option value="added" ${ui.sort === 'added' ? 'selected' : ''}>Recently added</option></select></label></div>
+      <div id="plist">${pantryListHTML()}</div>`,
+    fab: !ui.loading && all.length > 0
+  };
+}
+
+/* ----- Add / edit ingredient ----- */
+const NAME_RE = /^[\p{L}][\p{L}\s'’().,-]*$/u;
+function validate(v) {
+  const e = {};
+  const name = v.name.trim();
+  if (!name) e.name = 'Enter the ingredient name.';
+  else if (name.length < 2) e.name = 'Name must be at least 2 characters.';
+  else if (name.length > 40) e.name = 'Name must be 40 characters or fewer.';
+  else if (!NAME_RE.test(name)) e.name = 'Use letters only, for example “Tomatoes”.';
+  const qtyText = String(v.qty).trim();
+  const qty = Number(qtyText);
+  if (!qtyText) e.qty = 'Enter a quantity.';
+  else if (!Number.isFinite(qty)) e.qty = 'Quantity must be a number.';
+  else if (qty <= 0) e.qty = 'Quantity must be greater than 0.';
+  else if (qty > 100000) e.qty = 'Quantity is too large (maximum 100 000).';
+  if (!Engine.isUnit(v.unit)) e.unit = 'Choose a unit.';
+  let warn = '';
+  if (v.expiry) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(v.expiry) || isNaN(Date.parse(v.expiry))) e.expiry = 'Enter a valid date.';
+    else if (Engine.daysUntil(v.expiry, todayISO()) > 3650) e.expiry = 'Expiry date is more than 10 years away.';
+    else if (Engine.daysUntil(v.expiry, todayISO()) < 0) warn = 'That date has passed, so this item will be marked as expired.';
+  }
+  return { e, warn, qty };
+}
+function readForm() { return { name: $('#f-name').value, qty: $('#f-qty').value, unit: $('#f-unit').value, expiry: $('#f-exp').value }; }
+function refreshFormFeedback(showAll) {
+  const v = readForm(), { e, warn } = validate(v);
+  const editing = currentScreen().params.id;
+  for (const k of ['name', 'qty', 'unit', 'expiry']) {
+    const show = showAll || ui.touched[k];
+    const box = $('#e-' + k), input = $('#f-' + (k === 'expiry' ? 'exp' : k));
+    if (box) box.innerHTML = show && e[k] ? `${ic('alert', 15)}<span>${esc(e[k])}</span>` : '';
+    if (input) input.setAttribute('aria-invalid', show && e[k] ? 'true' : 'false');
+  }
+  $('#w-exp').innerHTML = warn ? `<div class="warnline">${esc(warn)}</div>` : '';
+  const key = Engine.canon(v.name);
+  let hint = key ? `Recognised as “${esc(key)}” when matching recipes.` : 'Use the ingredient’s everyday name. Plural or singular both work.';
+  const dup = key && PantryDao.getAll().find(p => p.id !== editing && Engine.canon(p.name) === key);
+  if (dup) hint = `You already have ${esc(cap(dup.name))} (${esc(Engine.fmtQty(dup.qty, dup.unit))}). Amounts are added together when matching recipes.`;
+  $('#h-name').innerHTML = hint;
+}
+function renderForm() {
+  const p = currentScreen().params, editing = p.id ? PantryDao.get(p.id) : null;
+  if (p.id && !editing) return { bar: appbar({ title: 'Not found', back: true }), body: '<div class="empty"><h3>Ingredient not found</h3><p>It may have been deleted.</p><button class="btn small" data-action="back">Go back</button></div>' };
+  const v = ui.draft || (editing ? { name: editing.name, qty: editing.qty, unit: editing.unit, expiry: editing.expiry || '' }
+    : { name: p.prefill?.name || '', qty: p.prefill?.qty ?? '', unit: p.prefill?.unit || db.settings.defaultUnit, expiry: '' });
+  const names = [...new Set(db.recipes.flatMap(r => r.ingredients.map(i => i.name)))].sort();
+  const unitOpts = Object.keys(Engine.UNITS).map(u => `<option value="${u}" ${v.unit === u ? 'selected' : ''}>${u}</option>`).join('');
+  return {
+    bar: appbar({ title: editing ? 'Edit ingredient' : 'Add ingredient', sub: editing ? 'Update the amount or expiry date.' : 'Tell us what’s in your pantry.', back: true }),
+    body: `<form id="ing-form" novalidate>
+      <div class="field"><label for="f-name">Ingredient name</label>
+        <input class="input" id="f-name" list="names" maxlength="60" autocomplete="off" value="${esc(v.name)}" aria-describedby="h-name e-name" placeholder="e.g. Tomatoes">
+        <datalist id="names">${names.map(n => `<option value="${esc(cap(n))}">`).join('')}</datalist>
+        <div class="hint" id="h-name"></div><div class="err" id="e-name" role="alert"></div></div>
+      <div class="row2"><div class="field"><label for="f-qty">Quantity</label>
+        <input class="input" id="f-qty" inputmode="decimal" autocomplete="off" value="${esc(v.qty)}" placeholder="e.g. 250" aria-describedby="e-qty"><div class="err" id="e-qty" role="alert"></div></div>
+        <div class="field"><label for="f-unit">Unit</label><select class="select" id="f-unit" aria-describedby="e-unit">${unitOpts}</select><div class="err" id="e-unit" role="alert"></div></div></div>
+      <div class="field"><label for="f-exp">Expiry date <span class="opt">(optional)</span></label>
+        <input class="input" id="f-exp" type="date" value="${esc(v.expiry)}" aria-describedby="e-expiry"><div id="w-exp"></div><div class="err" id="e-expiry" role="alert"></div>
+        <div class="hint">Use “pcs” for whole items and “can” for tins. Bread slices and garlic cloves count as pcs.</div></div>
+      <div class="formactions"><button class="btn primary block" type="submit">${editing ? 'Save changes' : 'Add to pantry'}</button>
+        ${editing ? `<button class="btn danger block" type="button" data-action="delete:${editing.id}">${ic('trash', 18)} Delete ingredient</button>` : ''}
+        <button class="btn block" type="button" data-action="back">Cancel</button></div></form>`,
+    after() { refreshFormFeedback(false); if (!editing) setTimeout(() => { const f = $('#f-name'); if (f && !f.value) f.focus(); }, 30); }
+  };
+}
+function submitForm() {
+  const v = readForm(), { e, qty } = validate(v);
+  if (Object.keys(e).length) {
+    refreshFormFeedback(true); toast('Fix the highlighted fields to continue.');
+    const first = ['name', 'qty', 'unit', 'expiry'].find(k => e[k]); const el = $('#f-' + (first === 'expiry' ? 'exp' : first)); if (el) el.focus(); return;
+  }
+  const item = { name: v.name.trim().replace(/\s+/g, ' '), qty: Math.round(qty * 100) / 100, unit: v.unit, expiry: v.expiry || null };
+  const id = currentScreen().params.id; let msg;
+  if (id) { item.id = id; PantryDao.update(item); msg = `${cap(item.name)} updated`; } else { PantryDao.insert(item); msg = `${cap(item.name)} added`; }
+  const ready = evaluateAll().filter(x => x.m.ready).length;
+  pop(); toast(`${msg} — ${ready} ${ready === 1 ? 'recipe' : 'recipes'} ready to cook`);
+}
+function askDelete(id) {
+  const it = PantryDao.get(id); if (!it) return;
+  openDialog({ title: `Delete ${cap(it.name)}?`, body: `This removes ${Engine.fmtQty(it.qty, it.unit)} from your pantry.`, confirm: 'Delete', danger: true,
+    onOk() {
+      const gone = PantryDao.remove(id); closeDialog();
+      if (currentScreen() && currentScreen().name === 'form') ui.stack.pop();
+      render();
+      toast(`${cap(gone.name)} deleted`, { label: 'Undo', run() { PantryDao.restore(gone); render(); toast(`${cap(gone.name)} restored`); } });
+    } });
+}
+
+/* ----- Suggested recipes ----- */
+function recipeCardHTML(x, mode) {
+  const { recipe: r, m } = x, exp = new Set(m.expiringUsed.map(Engine.canon));
+  const chips = m.lines.map(l => {
+    if (l.ok) return `<span class="ichip ${exp.has(l.key) ? 'soon' : ''}">${ic('check', 13)}${esc(l.name)}</span>`;
+    return `<span class="ichip miss">${ic('plus', 13)}${esc(l.name)}</span>`;
+  }).join('');
+  let extra = '';
+  if (mode === 'ready' && m.expiringUsed.length) extra = `<div class="saves">Uses up ${esc(m.expiringUsed.map(cap).join(', '))} before it expires</div>`;
+  if (mode === 'almost') {
+    const l = m.lines.find(z => !z.ok);
+    extra = `<div class="saves" style="color:var(--bad-ink)">${l.reason === 'short' ? `Short on ${esc(l.name)}: need ${esc(l.need)}, have ${esc(l.have)}` : l.reason === 'unit' ? `Can’t compare units for ${esc(l.name)} (need ${esc(l.need)})` : `Missing ${esc(l.name)} (${esc(l.need)})`}</div>`;
+  }
+  return `<button class="rcard" data-action="recipe:${r.id}" aria-label="Open recipe ${esc(r.name)}"><div class="rhead"><div class="emoji" aria-hidden="true">${r.emoji}</div>
+    <div><h3>${esc(r.name)}</h3><div class="rmeta">${r.minutes} min &nbsp;•&nbsp; serves ${r.servings} &nbsp;•&nbsp; ${plural(r.ingredients.length, 'ingredient')}</div></div></div>
+    <div class="ichips">${chips}</div>${extra}</button>`;
+}
+function renderSuggested() {
+  const all = evaluateAll();
+  const ready = all.filter(x => x.m.ready).sort((a, b) => b.m.expiringUsed.length - a.m.expiringUsed.length || a.recipe.minutes - b.recipe.minutes || a.recipe.name.localeCompare(b.recipe.name));
+  const almost = all.filter(x => x.m.missingCount === 1).sort((a, b) => a.recipe.minutes - b.recipe.minutes);
+  const readyIds = new Set(ready.map(x => x.recipe.id)), almostIds = new Set(almost.map(x => x.recipe.id));
+  const shelf = db.recipes.map(r => `<i class="${readyIds.has(r.id) ? 'r' : almostIds.has(r.id) ? 'a' : ''}" title="${esc(r.name)}"></i>`).join('');
+  const expiredIgnored = db.settings.ignoreExpired ? PantryDao.getAll().filter(i => itemStatus(i) === 'expired').length : 0;
+  let list;
+  if (ui.cookTab === 'ready') {
+    if (PantryDao.getAll().length === 0 || ready.length === 0) {
+      list = `<div class="empty">${ic('chef', 44)}<h3>No recipes match your pantry yet</h3><p>Add more ingredients — a recipe only appears when you have everything it needs.</p>
+        <div style="display:grid;gap:8px;justify-items:center"><button class="btn primary" data-action="open-add">${ic('plus')} Add ingredient</button>${almost.length ? `<button class="btn small" data-action="cook-tab:almost">See recipes missing 1 ingredient (${almost.length})</button>` : ''}</div></div>`;
+    } else list = `<div class="list">${ready.map(x => recipeCardHTML(x, 'ready')).join('')}</div>`;
+  } else {
+    list = `<div class="banner info">${ic('alert', 18)}<div class="grow1">These recipes each miss exactly one ingredient, so they’re kept out of your suggestions.</div></div>` +
+      (almost.length ? `<div class="list">${almost.map(x => recipeCardHTML(x, 'almost')).join('')}</div>` : `<div class="empty"><h3>Nothing is one step away</h3><p>Recipes that miss exactly one ingredient will be listed here.</p></div>`);
+  }
+  return {
+    bar: appbar({ title: 'Cook with what you have', sub: 'Only recipes you can make right now.' }),
+    body: `<div class="shelf" role="img" aria-label="${ready.length} of ${db.recipes.length} recipes ready, ${almost.length} almost ready">${shelf}</div>
+      <div class="legend"><span>Ready ${ready.length}</span><span class="a">One missing ${almost.length}</span></div>
+      <div class="tabs" role="tablist"><button role="tab" data-action="cook-tab:ready" aria-selected="${ui.cookTab === 'ready'}">Ready to cook (${ready.length})</button>
+        <button role="tab" data-action="cook-tab:almost" aria-selected="${ui.cookTab === 'almost'}">Almost there (${almost.length})</button></div>
+      ${list}${expiredIgnored && ui.cookTab === 'ready' ? `<p class="hint" style="text-align:center;margin-top:14px">${plural(expiredIgnored, 'expired item')} ignored. Change this in Settings.</p>` : ''}`,
+    readyCount: ready.length, almostCount: almost.length
+  };
+}
+
+/* ----- Recipe detail ----- */
+function renderDetail() {
+  const r = RecipeDao.get(currentScreen().params.id);
+  if (!r) return { bar: appbar({ title: 'Recipe not found', back: true }), body: '<div class="empty"><h3>Recipe not found</h3></div>' };
+  const m = Engine.evaluate(r, db.pantry, opts()), n = m.missingCount;
+  const status = m.ready ? `<div class="status ok">${ic('check', 20)}You have everything for this recipe.</div>`
+    : n === 1 ? `<div class="status almost">${ic('alert', 20)}Missing 1 ingredient, so it isn’t suggested yet.</div>`
+      : `<div class="status no">${ic('alert', 20)}Missing ${n} ingredients, so it isn’t suggested.</div>`;
+  const rows = m.lines.map((l, i) => `<li><span class="mark ${l.ok ? '' : 'no'}">${ic(l.ok ? 'check' : 'x', 15)}</span>
+    <div><div class="nm">${esc(cap(l.name))}</div><div class="sub ${l.ok ? '' : 'bad'}">${l.ok ? `You have ${esc(l.have)}` : l.reason === 'missing' ? 'Not in your pantry' : l.reason === 'unit' ? `You have ${esc(l.have)} (units can’t be compared)` : `Not enough — you have ${esc(l.have)}`}</div></div>
+    <div style="text-align:right"><div class="nm">${esc(l.need)}</div>${l.ok ? '' : `<button class="btn small" style="margin-top:4px" data-action="add-missing:${i}">Add</button>`}</div></li>`).join('');
+  const trace = m.lines.map(l => `<li><b>${esc(l.name)}</b> → <code>${esc(l.key)}</code><br>Need ${esc(l.need)}${l.have ? ` · pantry holds ${esc(l.have)}` : ' · not in pantry'} → <b>${l.ok ? 'covered' : 'not covered'}</b></li>`).join('');
+  const bar = m.ready
+    ? `<div class="stickybar"><button class="btn primary block" data-action="cook">${ic('chef', 20)} Mark as cooked</button></div>`
+    : `<div class="stickybar"><p class="hint">Add the missing ${n === 1 ? 'ingredient' : 'ingredients'} to your pantry to unlock cooking.</p></div>`;
+  return {
+    bar: appbar({ title: 'Recipe', back: true }), stick: bar, padBottom: true,
+    body: `<div class="hero"><div class="emoji" aria-hidden="true">${r.emoji}</div><div><h2>${esc(r.name)}</h2><div class="rmeta">${ic('clock', 14)} ${r.minutes} min &nbsp;•&nbsp; serves ${r.servings}</div></div></div>${status}
+      <h3 class="section-h" style="margin-top:0">Ingredients</h3><ul class="ings">${rows}</ul>
+      <h3 class="section-h">Method</h3><ol class="method">${r.steps.map(s => `<li><span>${esc(s)}</span></li>`).join('')}</ol>
+      <details class="trace"><summary>How this was checked</summary><p class="hint">A recipe is suggested only if every ingredient is covered. Names are normalised (plurals, synonyms) and units converted before comparing.</p><ul>${trace}</ul></details>`
+  };
+}
+function askCook() {
+  const r = RecipeDao.get(currentScreen().params.id), plan = Engine.planCooking(r, db.pantry, opts());
+  const list = Object.keys(plan).map(id => { const it = PantryDao.get(+id); return [cap(it.name), plan[id] === 0 ? `${Engine.fmtQty(it.qty, it.unit)} → used up` : `${Engine.fmt(it.qty)} → ${Engine.fmtQty(plan[id], it.unit)}`]; });
+  openDialog({ title: `Cook ${r.name}?`, body: 'This uses the earliest-expiring stock first and updates your pantry:', list, confirm: 'Mark as cooked',
+    onOk() {
+      Object.keys(plan).forEach(id => { const it = PantryDao.get(+id); if (plan[id] === 0) PantryDao.remove(+id); else PantryDao.update({ ...it, qty: plan[id] }); });
+      closeDialog(); ui.stack = []; ui.tab = 'suggested'; render(); toast(`Enjoy your ${r.name.toLowerCase()}! Pantry updated.`);
+    } });
+}
+
+/* ----- Settings ----- */
+function renderSettings() {
+  const s = db.settings;
+  const sw = (k, label) => `<button class="switch" role="switch" aria-checked="${s[k]}" aria-label="${label}" data-action="toggle:${k}"></button>`;
+  return {
+    bar: appbar({ title: 'Settings', sub: 'Alerts, matching and demo data.' }),
+    body: `<section class="group"><h2>Alerts</h2>
+      <div class="setrow"><div><div class="t">Expiring-soon alerts</div><div class="d">Show a banner when ingredients are close to expiring.</div></div>${sw('alerts', 'Expiring-soon alerts')}</div>
+      <div class="setrow"><div><div class="t">Alert window</div><div class="d">Warn this many days ahead.</div></div>
+        <select class="select" id="s-days" aria-label="Alert window in days">${[1, 2, 3, 5, 7].map(d => `<option value="${d}" ${s.soonDays === d ? 'selected' : ''}>${plural(d, 'day')}</option>`).join('')}</select></div></section>
+      <section class="group"><h2>Recipe matching</h2>
+      <div class="setrow"><div><div class="t">Ignore expired ingredients</div><div class="d">Expired items won’t count towards suggested recipes.</div></div>${sw('ignoreExpired', 'Ignore expired ingredients')}</div>
+      <div class="setrow"><div><div class="t">Default unit</div><div class="d">Pre-selected when adding an ingredient.</div></div>
+        <select class="select" id="s-unit" aria-label="Default unit">${Object.keys(Engine.UNITS).map(u => `<option value="${u}" ${s.defaultUnit === u ? 'selected' : ''}>${u}</option>`).join('')}</select></div></section>
+      <section class="group"><h2>Data</h2>
+      <div class="setrow"><div><div class="t">Load demo pantry</div><div class="d">Replace the pantry with 18 sample ingredients.</div></div><button class="btn small" data-action="demo-load">Load</button></div>
+      <div class="setrow"><div><div class="t">Clear pantry</div><div class="d">Remove every ingredient. Recipes stay.</div></div><button class="btn small danger" data-action="demo-clear">Clear</button></div>
+      <div class="setrow"><div><div class="t">Reset app</div><div class="d">Back to first-run state with demo data.</div></div><button class="btn small danger" data-action="reset-all">Reset</button></div>
+      <div class="aboutrow">Smart Pantry Manager · Mobile App Development 700<br>${db.recipes.length} recipes stored · Data saved with ${Store.persistent ? 'browser localStorage (Room / SQLite in the Android build)' : 'memory only — browser storage is unavailable, so data resets when the tab closes'}. No location or maps services are used.</div></section>`
+  };
+}
+
+/* =====================================================================
+   Render pipeline
+   ===================================================================== */
+function render() {
+  const t = currentScreen(), view = t ? (t.name === 'form' ? renderForm() : renderDetail()) :
+    ui.tab === 'pantry' ? renderPantry() : ui.tab === 'suggested' ? renderSuggested() : renderSettings();
+  $('#appbar-slot').innerHTML = view.bar;
+  const sc = $('#screen'), keepScroll = sc.scrollTop;
+  sc.className = 'screen' + (view.fab ? ' with-fab' : '') + (view.padBottom ? ' with-fab' : '');
+  sc.innerHTML = view.body;
+  $('#fab-slot').innerHTML = view.fab ? `<button class="fab" data-action="open-add" aria-label="Add ingredient">${ic('plus', 22)} Add</button>` : '';
+  $('#stick-slot').innerHTML = view.stick || '';
+  sc.scrollTop = keepScroll;
+  // bottom navigation only on top-level screens
+  const nav = $('#nav'); nav.style.display = t ? 'none' : '';
+  if (!t) {
+    const rc = evaluateAll().filter(x => x.m.ready).length;
+    const tabs = [['pantry', 'Pantry', 'basket'], ['suggested', 'Cook', 'chef'], ['settings', 'Settings', 'sliders']];
+    nav.innerHTML = tabs.map(([k, l, i]) => `<button data-action="tab:${k}" ${ui.tab === k ? 'aria-current="page"' : ''}><span class="pill">${ic(i, 22)}</span>${l}${k === 'suggested' && rc ? `<span class="badge" aria-label="${rc} recipes ready">${rc}</span>` : ''}</button>`).join('');
+  }
+  if (view.after) view.after();
+  if (!t && ui.tab === 'pantry') updatePantryCount();
+  renderToast(); renderGuideStats();
+}
+function updatePantryCount() { const c = $('#count'); if (c && !ui.loading) c.textContent = `${plural(filteredPantry().length, 'result')}`; }
+
+/* ---------- Guide panel ---------- */
+function renderGuide() {
+  $('#guide').innerHTML = `<h1>Smart Pantry Manager</h1>
+    <p class="lede">A working preview of the assignment app. It uses the same data model, screens and strict-matching logic as the Java Android project, so everything you do here is real: it is saved and recalculated.</p>
+    <div class="stats" id="gstats"></div>
+    <h2>Suggested path for the live demo</h2>
+    <ol class="steps">
+      <li><div>Browse the pantry<small>Search “tomato”, filter Expiring soon, change the sort.</small></div><button class="gbtn" data-guide="pantry">Open</button></li>
+      <li><div>Create with validation<small>Save empty, then type “Tomatoes” with quantity 0 to see errors.</small></div><button class="gbtn" data-guide="add">Open</button></li>
+      <li><div>Update tomatoes from 3 to 4<small>Tomato pasta appears in Cook.</small></div><button class="gbtn" data-guide="edit-tomato">Open</button></li>
+      <li><div>Delete Cheddar cheese<small>Three recipes disappear. Use Undo to bring them back.</small></div><button class="gbtn" data-guide="pantry">Open</button></li>
+      <li><div>Prove the strict rule<small>Open a recipe and expand “How this was checked”.</small></div><button class="gbtn" data-guide="recipe">Open</button></li>
+      <li><div>Close and reopen the app<small>Everything is loaded again from storage.</small></div><button class="gbtn" data-guide="restart">Restart</button></li>
+      <li><div>Settings<small>Toggle alerts, ignore expired items.</small></div><button class="gbtn" data-guide="settings">Open</button></li>
+    </ol>
+    <div class="grow"><button class="gbtn" data-guide="reset">Reset demo data</button><button class="gbtn" data-guide="theme">Toggle dark mode</button></div>
+    <details><summary>PDF requirements covered</summary><ul>
+      <li><b>Pantry CRUD</b> – name, quantity, unit, optional expiry (Add/Edit screen, delete with confirm and undo)</li>
+      <li><b>Pantry list</b> – bound to the stored data, with search, filter and sort</li>
+      <li><b>20 seeded recipes</b> – written to storage on first run</li>
+      <li><b>Suggested Recipes</b> – strict rule: every ingredient, in at least the required quantity</li>
+      <li><b>Robust matching</b> – tomato/tomatoes, spaghetti/pasta, g/kg, tsp/tbsp/ml, split batches</li>
+      <li><b>Recipe detail</b> – ingredients with have/missing, method, matching trace</li>
+      <li><b>Settings</b> – expiry alerts, alert window, ignore expired, default unit</li>
+      <li><b>Zero-match feedback</b> – “No recipes match your pantry yet”</li>
+      <li><b>Optional Almost there</b> – separate tab, exactly one missing ingredient</li>
+      <li><b>Validation</b> – name, quantity, unit and date rules with inline messages</li>
+      <li><b>Persistence</b> – survives reload and “close and reopen”</li>
+      <li><b>Out of scope respected</b> – no maps, GPS, location or payments</li></ul></details>
+    <p class="note">The graded deliverable is the Java Android project supplied alongside this preview. This web build exists so the behaviour can be tried without Android Studio.</p>`;
+}
+function renderGuideStats() {
+  const el = $('#gstats'); if (!el || !db) return;
+  const all = evaluateAll();
+  el.innerHTML = `<div class="stat"><b>${db.pantry.length}</b><span>pantry items</span></div><div class="stat"><b>${all.filter(x => x.m.ready).length}</b><span>recipes ready</span></div><div class="stat"><b>${all.filter(x => x.m.missingCount === 1).length}</b><span>one item short</span></div>`;
+}
+
+/* =====================================================================
+   Events
+   ===================================================================== */
+document.addEventListener('click', ev => {
+  const g = ev.target.closest('[data-guide]');
+  if (g) return guideAction(g.dataset.guide);
+  const el = ev.target.closest('[data-action]'); if (!el) return;
+  const [act, arg] = el.dataset.action.split(':');
+  if (act === 'dialog-backdrop') { if (ev.target === el) closeDialog(); return; }
+  switch (act) {
+    case 'tab': return goTab(arg);
+    case 'back': return pop();
+    case 'open-add': return push('form', {});
+    case 'edit': return push('form', { id: +arg });
+    case 'delete': return askDelete(+arg);
+    case 'filter': ui.filter = arg; return render();
+    case 'clear-filters': ui.filter = 'all'; ui.q = ''; return render();
+    case 'alert-show': ui.filter = 'soon'; return render();
+    case 'alert-dismiss': ui.bannerDismissed = true; return render();
+    case 'cook-tab': ui.cookTab = arg; return render();
+    case 'recipe': return push('detail', { id: +arg });
+    case 'cook': return askCook();
+    case 'add-missing': {
+      const r = RecipeDao.get(currentScreen().params.id), m = Engine.evaluate(r, db.pantry, opts()), l = m.lines[+arg];
+      const ing = r.ingredients[+arg]; return push('form', { prefill: { name: cap(ing.name), qty: ing.qty, unit: ing.unit } });
+    }
+    case 'toggle': Settings.set({ [arg]: !db.settings[arg] }); ui.bannerDismissed = false; return render();
+    case 'demo-load': return openDialog({ title: 'Load demo pantry?', body: 'This replaces your current pantry with 18 sample ingredients.', confirm: 'Load demo', onOk() { fillDemoReplace(); closeDialog(); render(); toast('Demo pantry loaded'); } });
+    case 'demo-clear': return openDialog({ title: 'Clear the pantry?', body: 'Every ingredient will be removed. Recipes are kept.', confirm: 'Clear pantry', danger: true, onOk() { PantryDao.clear(); closeDialog(); render(); toast('Pantry cleared'); } });
+    case 'reset-all': return openDialog({ title: 'Reset the app?', body: 'This restores first-run state with recipes and the demo pantry.', confirm: 'Reset', danger: true, onOk() { seedDatabase(true); closeDialog(); ui.stack = []; ui.tab = 'pantry'; ui.filter = 'all'; ui.q = ''; render(); toast('App reset'); } });
+    case 'dialog-cancel': return closeDialog();
+    case 'dialog-ok': { const d = ui.dialog; if (d && d.onOk) d.onOk(); return; }
+    case 'toast-action': { const a = ui.toast && ui.toast.action; ui.toast = null; renderToast(); if (a) a.run(); return; }
+  }
+});
+function fillDemoReplace() { db.pantry = []; fillDemo(); Store.write(db); }
+document.addEventListener('input', ev => {
+  if (ev.target.id === 'q') { ui.q = ev.target.value; $('#plist').innerHTML = pantryListHTML(); updatePantryCount(); }
+  else if (ev.target.closest('#ing-form')) { const map = { 'f-name': 'name', 'f-qty': 'qty', 'f-unit': 'unit', 'f-exp': 'expiry' }; if (map[ev.target.id]) ui.touched[map[ev.target.id]] = true; refreshFormFeedback(false); }
+});
+document.addEventListener('change', ev => {
+  const id = ev.target.id;
+  if (id === 'sort') { ui.sort = ev.target.value; $('#plist').innerHTML = pantryListHTML(); }
+  else if (id === 's-days') { Settings.set({ soonDays: +ev.target.value }); render(); }
+  else if (id === 's-unit') { Settings.set({ defaultUnit: ev.target.value }); toast('Default unit saved'); }
+});
+document.addEventListener('focusout', ev => {
+  const map = { 'f-name': 'name', 'f-qty': 'qty', 'f-unit': 'unit', 'f-exp': 'expiry' };
+  if (map[ev.target.id] && $('#ing-form')) { ui.touched[map[ev.target.id]] = true; refreshFormFeedback(false); }
+});
+document.addEventListener('submit', ev => { if (ev.target.id === 'ing-form') { ev.preventDefault(); submitForm(); } });
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && ui.dialog) closeDialog(); });
+
+function guideAction(a) {
+  if (a === 'pantry') { goTab('pantry'); }
+  else if (a === 'add') { ui.tab = 'pantry'; ui.stack = []; push('form', {}); }
+  else if (a === 'edit-tomato') {
+    const t = PantryDao.getAll().find(i => Engine.canon(i.name) === 'tomato');
+    if (t) { ui.stack = []; ui.tab = 'pantry'; push('form', { id: t.id }); } else toast('Add Tomatoes to the pantry first.');
+  } else if (a === 'recipe') {
+    goTab('suggested'); const first = evaluateAll().find(x => x.m.ready); if (first) push('detail', { id: first.recipe.id }); else toast('No ready recipe to open yet.');
+  } else if (a === 'settings') goTab('settings');
+  else if (a === 'restart') restartApp();
+  else if (a === 'reset') { seedDatabase(true); ui.stack = []; ui.tab = 'pantry'; ui.filter = 'all'; ui.q = ''; ui.dialog = null; renderDialog(); render(); toast('Demo data restored'); }
+  else if (a === 'theme') { const r = document.documentElement, dark = r.dataset.theme === 'dark' || (!r.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches); r.dataset.theme = dark ? 'light' : 'dark'; }
+}
+
+/* ---------- Boot / restart ---------- */
+function boot(showLoading) {
+  const saved = Store.read();
+  if (saved) db = saved; else seedDatabase(true);
+  db.settings = { ...DEFAULT_SETTINGS, ...db.settings };
+  Object.assign(ui, { tab: 'pantry', stack: [], q: '', filter: 'all', sort: 'expiry', cookTab: 'ready', dialog: null, toast: null, bannerDismissed: false, loading: !!showLoading });
+  renderDialog(); render();
+  const finish = () => {
+    ui.loading = false; render();
+    if (!Store.persistent) toast('Browser storage is unavailable, so changes will not be kept after closing.');
+    else {
+      const soon = db.pantry.filter(i => itemStatus(i) === 'soon').length;
+      if (db.settings.alerts && soon) toast(`${plural(soon, 'ingredient')} expire within ${plural(db.settings.soonDays, 'day')}`, { label: 'View', run() { ui.filter = 'soon'; goTab('pantry'); } });
+    }
+  };
+  if (showLoading) setTimeout(finish, 450); else finish();
+}
+function restartApp() { db = null; $('#overlay-slot').innerHTML = ''; boot(true); }
+renderGuide(); boot(true);
+</script>
+</body>
+</html>

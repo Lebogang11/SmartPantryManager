@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="window_bg">#F2F6F1</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface2">#E8EFE7</color>
+    <color name="ink">#14261D</color>
+    <color name="muted">#586A5F</color>
+    <color name="line">#D3DDD2</color>
+    <color name="brand">#1D5A42</color>
+    <color name="brand_soft">#DCEBDD</color>
+    <color name="lime">#C9E25B</color>
+    <color name="warn_bg">#FBEBC4</color>
+    <color name="warn_ink">#7A4B00</color>
+    <color name="bad_bg">#FBDCD6</color>
+    <color name="bad_ink">#9B2A1B</color>
+    <color name="tag_neutral_bg">#E8EFE7</color>
+    <color name="white">#FFFFFF</color>
+</resources>

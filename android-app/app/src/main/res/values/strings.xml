@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Smart Pantry Manager</string>
+
+    <string name="title_pantry">My pantry</string>
+    <string name="title_cook">Cook with what you have</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_add_ingredient">Add ingredient</string>
+    <string name="title_edit_ingredient">Edit ingredient</string>
+    <string name="title_recipe">Recipe</string>
+
+    <string name="hint_search">Search ingredients</string>
+    <string name="hint_name_default">Use the ingredient’s everyday name. Plural or singular both work.</string>
+    <string name="hint_unit_help">Use “pcs” for whole items and “can” for tins. Bread slices and garlic cloves count as pcs.</string>
+
+    <string name="label_name">Ingredient name</string>
+    <string name="label_quantity">Quantity</string>
+    <string name="label_unit">Unit</string>
+    <string name="label_expiry">Expiry date (optional)</string>
+    <string name="warning_past_date">That date has passed, so this item will be marked as expired.</string>
+
+    <string name="action_add">Add</string>
+    <string name="action_add_ingredient">Add ingredient</string>
+    <string name="action_add_to_pantry">Add to pantry</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="action_delete_ingredient">Delete ingredient</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear_date">Clear date</string>
+    <string name="action_load_demo">Load demo pantry</string>
+    <string name="action_mark_cooked">Mark as cooked</string>
+    <string name="action_show_trace">Show how this was checked</string>
+    <string name="action_hide_trace">Hide how this was checked</string>
+    <string name="action_add_missing">Add</string>
+
+    <string name="empty_pantry_title">Your pantry is empty</string>
+    <string name="empty_pantry_message">Add what you have at home and Smart Pantry Manager will show what you can cook.</string>
+    <string name="no_results_title">No ingredients found</string>
+    <string name="no_results_message">Nothing matches your search or filter.</string>
+    <string name="no_match_title">No recipes match your pantry yet</string>
+    <string name="no_match_message">No recipes match your pantry yet – add more ingredients. A recipe only appears when you have everything it needs.</string>
+    <string name="almost_empty_title">Nothing is one step away</string>
+    <string name="almost_empty_message">Recipes that miss exactly one ingredient will be listed here.</string>
+    <string name="almost_note">These recipes each miss exactly one ingredient, so they are kept out of your suggestions.</string>
+
+    <string name="section_ingredients">Ingredients</string>
+    <string name="section_method">Method</string>
+
+    <string name="settings_group_alerts">Alerts</string>
+    <string name="settings_alerts_title">Expiring-soon alerts</string>
+    <string name="settings_alerts_desc">Show a banner when ingredients are close to expiring.</string>
+    <string name="settings_window_title">Alert window</string>
+    <string name="settings_window_desc">Warn this many days ahead.</string>
+    <string name="settings_group_matching">Recipe matching</string>
+    <string name="settings_ignore_title">Ignore expired ingredients</string>
+    <string name="settings_ignore_desc">Expired items won’t count towards suggested recipes.</string>
+    <string name="settings_unit_title">Default unit</string>
+    <string name="settings_unit_desc">Pre-selected when adding an ingredient.</string>
+    <string name="settings_group_data">Data</string>
+    <string name="settings_demo_title">Load demo pantry</string>
+    <string name="settings_demo_desc">Replace the pantry with 18 sample ingredients.</string>
+    <string name="settings_clear_title">Clear pantry</string>
+    <string name="settings_clear_desc">Remove every ingredient. Recipes stay.</string>
+    <string name="settings_reset_title">Reset app</string>
+    <string name="settings_reset_desc">Default settings and the demo pantry.</string>
+    <string name="settings_about">Smart Pantry Manager · Mobile App Development 700\nData is stored on this device in a SQLite database (Room). No location, maps or payment services are used.</string>
+
+    <string-array name="sort_options">
+        <item>Expiry date</item>
+        <item>Name</item>
+        <item>Recently added</item>
+    </string-array>
+</resources>
