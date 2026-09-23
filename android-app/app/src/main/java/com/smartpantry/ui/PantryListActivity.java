@@ -187,7 +187,7 @@ public class PantryListActivity extends BaseActivity implements PantryAdapter.Li
         else if (sortMode == 2) shown.sort((a, b) -> Long.compare(b.addedAt, a.addedAt));
         else shown.sort(byExpiry);
 
-        adapter.submit(shown, today, soonDays);
+        adapter.submit(shown, today, soonDays, filter != FILTER_ALL);
 
         chipAll.setText("All (" + allItems.size() + ")");
         chipSoon.setText("Expiring soon (" + soonCount + ")");

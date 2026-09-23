@@ -35,14 +35,15 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
     private List<PantryItem> items = new ArrayList<>();
     private LocalDate today = LocalDate.now();
     private int soonDays = 3;
+    private boolean showExpiryTag = false;
 
     public PantryAdapter(Listener listener) { this.listener = listener; }
 
-    /** Replaces the displayed data and redraws the list. */
-    public void submit(List<PantryItem> newItems, LocalDate today, int soonDays) {
+    public void submit(List<PantryItem> newItems, LocalDate today, int soonDays, boolean showExpiryTag) {
         this.items = new ArrayList<>(newItems);
         this.today = today;
         this.soonDays = soonDays;
+        this.showExpiryTag = showExpiryTag;
         notifyDataSetChanged();
     }
 
@@ -60,16 +61,17 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder
         h.quantity.setText(Formatters.quantity(item.quantity, item.unit));
 
         Integer days = RecipeMatcher.daysUntilExpiry(item.expiryDate, today);
-        h.expiry.setText(Formatters.expiryLabel(days));
-
-        int bg, fg;
-        if (days == null) { bg = R.color.tag_neutral_bg; fg = R.color.muted; }
-        else if (days < 0) { bg = R.color.bad_bg; fg = R.color.bad_ink; }
-        else if (days <= soonDays) { bg = R.color.warn_bg; fg = R.color.warn_ink; }
-        else { bg = R.color.brand_soft; fg = R.color.brand; }
-        h.expiry.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(h.itemView.getContext(), bg)));
-        h.expiry.setTextColor(ContextCompat.getColor(h.itemView.getContext(), fg));
-
+        boolean needsAttention = showExpiryTag && days != null && days <= soonDays;
+        if (needsAttention) {
+            h.expiry.setVisibility(View.VISIBLE);
+            h.expiry.setText(Formatters.expiryLabel(days));
+            int bg = days < 0 ? R.color.bad_bg : R.color.warn_bg;
+            int fg = days < 0 ? R.color.bad_ink : R.color.warn_ink;
+            h.expiry.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(h.itemView.getContext(), bg)));
+            h.expiry.setTextColor(ContextCompat.getColor(h.itemView.getContext(), fg));
+        } else {
+            h.expiry.setVisibility(View.GONE);
+        }
         h.itemView.setOnClickListener(v -> listener.onEdit(item));
         h.edit.setOnClickListener(v -> listener.onEdit(item));
         h.delete.setOnClickListener(v -> listener.onDelete(item));
