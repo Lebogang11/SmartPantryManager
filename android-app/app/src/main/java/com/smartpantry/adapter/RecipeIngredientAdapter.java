@@ -17,7 +17,7 @@ import com.smartpantry.util.Formatters;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Shows each ingredient of one recipe with a tick (in pantry) or cross (missing / not enough). */
+/** Shows each ingredient of one recipe with a tick in pantry or cross for missing / not enough. */
 public class RecipeIngredientAdapter extends RecyclerView.Adapter<RecipeIngredientAdapter.ViewHolder> {
 
     public interface Listener { void onAddMissing(int position); }

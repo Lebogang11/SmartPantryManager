@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Turns free-text ingredient names into a canonical key so that "Tomatoes", "tomato" and
- * "fresh tomatoes (large)" all match. Steps: lower-case, strip accents/punctuation/brackets,
- * drop descriptive words, singularise each word, then apply a small synonym table.
- * Both the pantry name and the recipe name go through the same function, so what matters is
- * that variants of one ingredient end up with the same key.
+ * Cleans ingredient names so different versions of the same ingredient can match.
+ * It removes extra words and symbols, converts the name to lowercase,
+ * and applies common ingredient names.
  */
 public final class IngredientNormalizer {
 
@@ -53,7 +51,7 @@ public final class IngredientNormalizer {
 
     private IngredientNormalizer() { }
 
-    /** Canonical key for an ingredient name; never null. */
+    /** Returns a standard ingredient name for matching. */
     public static String normalize(String name) {
         if (name == null) return "";
         String cleaned = Normalizer.normalize(name, Normalizer.Form.NFD)

@@ -7,7 +7,7 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
-/** Data access for the recipe collection (read-only after seeding). */
+/** Provides access to the recipe collection. */
 @Dao
 public interface RecipeDao {
 

@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="window_bg">#F2F6F1</color>
+
+    <!-- Main Backgrounds -->
+    <color name="window_bg">#F5F9FD</color>
     <color name="surface">#FFFFFF</color>
-    <color name="surface2">#E8EFE7</color>
-    <color name="ink">#14261D</color>
-    <color name="muted">#586A5F</color>
-    <color name="line">#D3DDD2</color>
-    <color name="brand">#1D5A42</color>
-    <color name="brand_soft">#DCEBDD</color>
-    <color name="lime">#C9E25B</color>
-    <color name="warn_bg">#FBEBC4</color>
-    <color name="warn_ink">#7A4B00</color>
+    <color name="surface2">#E3F0FA</color>
+
+    <!-- Text -->
+    <color name="ink">#172B3A</color>
+    <color name="muted">#607482</color>
+    <color name="line">#D4E1EA</color>
+
+    <!-- Fresh Blue -->
+    <color name="brand">#2F80C0</color>
+    <color name="brand_soft">#DCEEF9</color>
+
+    <!-- Soft Sky Blue -->
+    <color name="lime">#DDF1FF</color>
+
+    <!-- Warning -->
+    <color name="warn_bg">#FFF4C2</color>
+    <color name="warn_ink">#7A5A00</color>
+
+    <!-- Error -->
     <color name="bad_bg">#FBDCD6</color>
     <color name="bad_ink">#9B2A1B</color>
-    <color name="tag_neutral_bg">#E8EFE7</color>
+
+    <!-- Neutral Tags -->
+    <color name="tag_neutral_bg">#E3F0FA</color>
+
+    <!-- White -->
     <color name="white">#FFFFFF</color>
+
 </resources>

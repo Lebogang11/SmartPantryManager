@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Unit handling for the strict-matching rule.
- *
- * Every unit belongs to a Dimension (mass, volume or count) and has a factor to that dimension's
- * base unit (g, ml, piece). Amounts in the same dimension are compared directly. Across dimensions
- * (e.g. "1 tsp salt" needed, "200 g salt" owned) a small density / piece-weight table is used;
- * if the table has no entry the units are reported as not comparable instead of guessing.
+ * Handles ingredient units for the strict-matching rule.
+ * Converts units such as g, kg, ml, l, tsp, tbsp and cups
+ * so ingredient quantities can be compared correctly.
  */
 public final class UnitConverter {
 

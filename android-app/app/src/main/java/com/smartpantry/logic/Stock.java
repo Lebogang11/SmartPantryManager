@@ -1,9 +1,8 @@
 package com.smartpantry.logic;
 
 /**
- * Read-only view of one pantry entry, as needed by the matching engine.
- * The Room entity PantryItem implements this, which keeps the engine free of Android
- * dependencies so it can be unit-tested with plain Java.
+ * Represents a pantry item used by the matching engine.
+ * It provides the ingredient name, quantity and unit needed for matching.
  */
 public interface Stock {
     long getId();

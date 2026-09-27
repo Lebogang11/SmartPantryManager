@@ -195,7 +195,6 @@ public class PantryListActivity extends BaseActivity implements PantryAdapter.Li
         countText.setText(Formatters.plural(shown.size(), "result"));
         getSupportActionBar().setSubtitle(Formatters.plural(allItems.size(), "ingredient") + " at home");
 
-        updateBanner(soonCount, expiredCount, soonDays);
         updateEmptyState(shown.isEmpty());
     }
 

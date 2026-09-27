@@ -29,10 +29,8 @@ import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 /**
- * Add / Edit ingredient screen (one Activity, two modes). If the launching Intent carries
- * EXTRA_ITEM_ID the screen loads that row and saves an UPDATE; otherwise it saves an INSERT.
- * The recipe detail screen can also open it with pre-filled values (EXTRA_PREFILL_*).
- * Every field is validated before anything is written to the database.
+ * Screen for adding or editing pantry ingredients.
+ * It validates the entered details before saving them to the database.
  */
 public class AddEditIngredientActivity extends BaseActivity {
 

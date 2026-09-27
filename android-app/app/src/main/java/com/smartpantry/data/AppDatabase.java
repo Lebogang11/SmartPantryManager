@@ -10,8 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * The single Room database for the app
- * Room forbids database access on the main thread, so all calls run on the {@link #io()} executor.
+ *Room database used by the app
  */
 @Database(entities = {PantryItem.class, Recipe.class, RecipeIngredient.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

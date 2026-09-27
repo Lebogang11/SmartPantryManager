@@ -28,10 +28,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Suggested Recipes screen. It loads the pantry and every recipe, runs the STRICT matching rule
- * (RecipeMatcher.evaluate) on each recipe and lists only the recipes whose every ingredient is
- * covered. A separate tab shows the optional "Almost there" recipes (exactly one ingredient short);
- * those are never mixed into the strict list.
+ * Displays suggested recipes based on the ingredients in the pantry.
+ * It also shows recipes that are missing one ingredient in a separate section.
  */
 public class SuggestedRecipesActivity extends BaseActivity implements RecipeAdapter.Listener {
 

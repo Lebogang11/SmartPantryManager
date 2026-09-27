@@ -10,8 +10,7 @@ import androidx.room.PrimaryKey;
 import com.smartpantry.logic.Requirement;
 
 /**
- * One ingredient line of a recipe (e.g. 200 g pasta). Many rows belong to one recipe:
- * recipe_ingredients.recipeId is a foreign key to recipes.id and rows are deleted with their recipe.
+ * Represents an ingredient and its quantity in a recipe.
  */
 @Entity(tableName = "recipe_ingredients",
         foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId",

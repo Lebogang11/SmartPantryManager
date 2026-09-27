@@ -5,7 +5,7 @@ import androidx.room.Relation;
 
 import java.util.List;
 
-/** A recipe together with all of its ingredient rows (one-to-many relation loaded by Room). */
+/** Represents a recipe and its ingredients. */
 public class RecipeWithIngredients {
 
     @Embedded

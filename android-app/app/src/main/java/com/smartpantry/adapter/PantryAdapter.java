@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Custom RecyclerView adapter for the pantry list. Each row shows the name, quantity and an
- * expiry tag coloured by status (fresh / expiring soon / expired), plus edit and delete buttons.
+ * Adapter for displaying pantry items with edit and delete options.
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.ViewHolder> {
 

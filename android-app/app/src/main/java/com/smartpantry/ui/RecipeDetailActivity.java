@@ -30,10 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Recipe detail: full ingredient list (tick / cross against the pantry), numbered method,
- * a "How this was checked" explanation of the strict rule, and a "Mark as cooked" action that
- * deducts the ingredients from the pantry (earliest-expiring stock first).
- * The recipe id arrives through the launching Intent (EXTRA_RECIPE_ID).
+ * Displays the recipe ingredients, cooking steps and pantry matches.
+ * Users can also mark the recipe as cooked to update the pantry.
  */
 public class RecipeDetailActivity extends BaseActivity implements RecipeIngredientAdapter.Listener {
 

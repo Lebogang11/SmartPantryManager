@@ -16,14 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * THE STRICT-MATCHING RULE (assignment section 2.3).
+ * Checks if a recipe can be made using only the ingredients in the pantry.
  *
- * A recipe is "ready" only if EVERY ingredient it requires is in the pantry in at least the
- * required quantity. One missing or insufficient ingredient means the recipe is not suggested.
- *
- * Matching is tolerant of everyday messiness: names are normalised (plural/singular, adjectives,
- * synonyms), quantities are converted between units (g/kg, ml/l/tsp/tbsp/cup, pcs) and several
- * pantry entries for the same ingredient are added together.
+ * Every required ingredient must be available in the correct quantity.
+ * Ingredient names and units are normalised to allow different formats to match.
  */
 public final class RecipeMatcher {
 

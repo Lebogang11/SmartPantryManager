@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecyclerView adapter for the Suggested Recipes screen. The same adapter renders both lists:
- * the strict "Ready to cook" list and the optional, clearly separate "Almost there" list.
+ * Adapter for displaying suggested recipes.
  */
+
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     /** A recipe paired with the outcome of the strict-matching check. */

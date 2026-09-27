@@ -8,7 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
-/** Data access for the pantry: the Create / Read / Update / Delete operations. */
+/** Data access for the pantry: the Create, Read, Update and Delete operations. */
 @Dao
 public interface PantryDao {
 

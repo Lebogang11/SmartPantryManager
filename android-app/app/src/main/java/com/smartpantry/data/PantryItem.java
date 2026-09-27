@@ -7,10 +7,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.smartpantry.logic.Stock;
-
 /**
- * One ingredient the user has at home. Room maps this class to the pantry_items table.
- * Implements {@link Stock} so the matching engine can read it without knowing about Room.
+ * Represents every ingredient stored in the pantry.
  */
 @Entity(tableName = "pantry_items")
 public class PantryItem implements Stock {
@@ -26,11 +24,11 @@ public class PantryItem implements Stock {
     @NonNull
     public String unit = "pcs";
 
-    /** ISO date "yyyy-MM-dd", or null when the user did not enter an expiry date. */
+    /** Stores the expiry date, if provided. */
     @Nullable
     public String expiryDate;
 
-    /** Epoch millis when the row was created (used by the "Recently added" sort). */
+    /** Stores when the pantry item was added. */
     public long addedAt;
 
     /** Required by Room. */
