@@ -62,7 +62,7 @@
     <string name="settings_clear_desc">Remove every ingredient. Recipes stay.</string>
     <string name="settings_reset_title">Reset app</string>
     <string name="settings_reset_desc">Default settings and the demo pantry.</string>
-    <string name="settings_about">Smart Pantry Manager · Mobile App Development 700\nData is stored on this device in a SQLite database (Room). No location, maps or payment services are used.</string>
+    <string name="settings_about">Smart Pantry Manager ·Data is stored on this device in a SQLite database (Room)</string>
 
     <string-array name="sort_options">
         <item>Expiry date</item>
